@@ -10,23 +10,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerLogic {
+class PlayerLogic(private val timeManager: TimeManager) {
     private val _playerPosition = MutableStateFlow(Player(100f, 0f))
     val playerPosition: StateFlow<Player> = _playerPosition
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val deltaTime = flow {
-        while (true) {
-            val time = 20
-            delay(time.toLong())
-            emit(time.toFloat())
-        }
-    }
-
     init {
         coroutineScope.launch {
-            deltaTime.collect { dt ->
+            timeManager.deltaTime.collect { dt ->
                 _playerPosition.update { player ->
                     var newY = player.y + player.speed * dt + 0.5 * Player.acceleration * dt * dt
                     var newSpeed = player.speed + Player.acceleration * dt

@@ -15,14 +15,23 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.logic.BlockLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
+import io.github.adibfara.flappygame.ui.game.logic.TimeManager
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 
 @Composable
 fun Game(modifier: Modifier = Modifier) {
-    val playerLogic = remember {
-        PlayerLogic()
+    val timeManager = remember {
+        TimeManager()
     }
+    val playerLogic = remember {
+        PlayerLogic(timeManager)
+    }
+
+    val blockLogic = remember {
+        BlockLogic(timeManager)
+    }
+
     Box(modifier.clickable {
         playerLogic.jump()
     }) {
@@ -31,9 +40,6 @@ fun Game(modifier: Modifier = Modifier) {
         Player(Modifier, playerLogic)
 
 
-        val blockLogic = remember {
-            BlockLogic()
-        }
         Box() {
             val blockPosition = blockLogic.blockPosition.collectAsState().value
             Pipe(blockPosition.topPipe)

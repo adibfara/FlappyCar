@@ -4,32 +4,29 @@ import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class BlockLogic {
+class BlockLogic(private val timeManager: TimeManager) {
     private val _blockPosition = MutableStateFlow(Block(Pipe(0f, 200f, 0f), Pipe(300f, 450f, 0f)))
     val blockPosition: StateFlow<Block> = _blockPosition
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val deltaTime = flow {
-        while (true) {
-            val time = 20
-            delay(time.toLong())
-            emit(time.toFloat())
-        }
-    }
 
     init {
         updateBlockX { _ -> 400f }
         coroutineScope.launch {
-            deltaTime.collect {
-                updateBlockX { x -> x - 1 }
+            timeManager.deltaTime.collect { dt ->
+                updateBlockX { x ->
+                    var newX = x - (dt * 0.1f)
+                    if (newX < -100f) {
+                        newX = 400f
+                    }
+                    newX
+                }
             }
         }
     }
