@@ -13,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
 import io.github.adibfara.flappygame.ui.game.logic.BlockLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.logic.TimeManager
 import io.github.adibfara.flappygame.ui.game.model.Pipe
+import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 
 @Composable
@@ -24,40 +26,24 @@ fun Game(modifier: Modifier = Modifier) {
     val timeManager = remember {
         TimeManager()
     }
+    val coroutineScope = remember {
+        gameCoroutineScope()
+    }
     val playerLogic = remember {
-        PlayerLogic(timeManager)
+        PlayerLogic(timeManager, coroutineScope)
     }
 
     val blockLogic = remember {
-        BlockLogic(timeManager)
+        BlockLogic(timeManager, coroutineScope)
     }
 
     Box(modifier.clickable {
         playerLogic.jump()
     }) {
-
-
         Player(Modifier, playerLogic)
-
-
-        Box() {
-            val blockPosition = blockLogic.blockPosition.collectAsState().value
-            Pipe(blockPosition.topPipe)
-            Pipe(blockPosition.bottomPipe)
-
-        }
+        Block(blockLogic)
     }
 }
 
-@Composable
-private fun Pipe(pipe: Pipe) {
-    Box(
-        Modifier
-            .offset {
-                IntOffset(pipe.x.dp.roundToPx(), pipe.topY.dp.roundToPx())
-            }
-            .size(20.dp, (pipe.bottomY - pipe.topY).dp)
-            .background(Color.Green)
-    )
-}
+
 

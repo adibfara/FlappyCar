@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerLogic(private val timeManager: TimeManager) {
+class PlayerLogic(
+    private val timeManager: TimeManager,
+    private val coroutineScope: CoroutineScope
+) {
     private val _playerPosition = MutableStateFlow(Player(100f, 0f))
     val player: StateFlow<Player> = _playerPosition
 
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     init {
         coroutineScope.launch {
