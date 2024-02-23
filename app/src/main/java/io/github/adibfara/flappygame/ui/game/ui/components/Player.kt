@@ -11,25 +11,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.model.toDpSize
 
 @Composable
 internal fun Player(
     modifier: Modifier,
-    playerLogic: PlayerLogic
+    playerLogic: PlayerLogic,
+    playerCollisionLogic: PlayerCollisionLogic,
 ) {
     Box(modifier) {
 
         val player = playerLogic.player.collectAsState()
-
+        val collided = playerCollisionLogic.collision.collectAsState().value
         Box(
             Modifier
                 .offset {
-                    IntOffset(x = 0, y = player.value.y.toInt())
+                    IntOffset(x = 0, y = player.value.y.dp.roundToPx())
                 }
                 .size(player.value.size.toDpSize())
-                .background(Color.Black)
+                .background(if (collided) Color.Red else Color.Black)
         ) {}
     }
 }

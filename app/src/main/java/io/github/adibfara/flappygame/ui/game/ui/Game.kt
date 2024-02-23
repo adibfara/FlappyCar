@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
 import io.github.adibfara.flappygame.ui.game.logic.BlockLogic
+import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.logic.TimeManager
 import io.github.adibfara.flappygame.ui.game.model.Pipe
@@ -36,11 +37,14 @@ fun Game(modifier: Modifier = Modifier) {
     val blockLogic = remember {
         BlockLogic(timeManager, coroutineScope)
     }
+    val playerCollisionLogic = remember {
+        PlayerCollisionLogic(playerLogic, blockLogic, timeManager, coroutineScope)
+    }
 
     Box(modifier.clickable {
         playerLogic.jump()
     }) {
-        Player(Modifier, playerLogic)
+        Player(Modifier, playerLogic, playerCollisionLogic)
         Block(blockLogic)
     }
 }

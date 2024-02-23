@@ -19,7 +19,7 @@ internal fun Pipe(pipe: Pipe, modifier: Modifier = Modifier) {
             .offset {
                 IntOffset(pipe.x.dp.roundToPx(), pipe.topY.dp.roundToPx())
             }
-            .size(20.dp, (pipe.bottomY - pipe.topY).dp)
+            .size(pipe.width.dp, (pipe.bottomY - pipe.topY).dp)
             .background(Color.Green)
     )
 }
