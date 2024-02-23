@@ -36,7 +36,7 @@ class PlayerLogic(
 
     fun jump() {
         _playerPosition.update {
-            it.copy(speed = -0.5f)
+            it.copy(speed = -0.25f)
         }
     }
 
