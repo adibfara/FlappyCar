@@ -3,16 +3,14 @@ package io.github.adibfara.flappygame.ui.game.logic
 import io.github.adibfara.flappygame.ui.game.model.Player
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class PlayerLogic(private val timeManager: TimeManager) {
     private val _playerPosition = MutableStateFlow(Player(100f, 0f))
-    val playerPosition: StateFlow<Player> = _playerPosition
+    val player: StateFlow<Player> = _playerPosition
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
