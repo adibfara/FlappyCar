@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import io.github.adibfara.flappygame.ui.game.engine.LogicManager
 import io.github.adibfara.flappygame.ui.game.engine.TimeManager
 import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
-import io.github.adibfara.flappygame.ui.game.logic.BlockCreatorLogic
+import io.github.adibfara.flappygame.ui.game.logic.BlockSpawnerLogic
 import io.github.adibfara.flappygame.ui.game.logic.BlockMovementLogic
 import io.github.adibfara.flappygame.ui.game.logic.GameOverManager
 import io.github.adibfara.flappygame.ui.game.logic.GameScoreLogic
@@ -36,7 +36,8 @@ class GameDI(private val viewport: Viewport) {
     )
     val logicManager = LogicManager(logics, gameStatusLogic, timeManager, coroutineScope)
 
-    val blockCreatorLogic = BlockCreatorLogic(blockMovementLogic, coroutineScope, viewport)
+    val blockSpawnerLogic =
+        BlockSpawnerLogic(blockMovementLogic, gameStatusLogic, coroutineScope, viewport)
 
     companion object {
         @Composable

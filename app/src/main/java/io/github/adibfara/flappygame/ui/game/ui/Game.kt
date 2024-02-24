@@ -13,27 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.unit.Dp
-import io.github.adibfara.flappygame.R
 import io.github.adibfara.flappygame.ui.game.di.GameDI.Companion.rememberDI
-import io.github.adibfara.flappygame.ui.game.engine.LogicManager
-import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
-import io.github.adibfara.flappygame.ui.game.logic.BlockMovementLogic
-import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
-import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
-import io.github.adibfara.flappygame.ui.game.engine.TimeManager
-import io.github.adibfara.flappygame.ui.game.engine.compose.toPx
-import io.github.adibfara.flappygame.ui.game.logic.BlockCreatorLogic
-import io.github.adibfara.flappygame.ui.game.logic.GameOverManager
-import io.github.adibfara.flappygame.ui.game.logic.GameScoreLogic
-import io.github.adibfara.flappygame.ui.game.logic.GameStatusLogic
-import io.github.adibfara.flappygame.ui.game.logic.OnGameOverLogic
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 import io.github.adibfara.flappygame.ui.game.ui.components.Background
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
-import kotlinx.coroutines.delay
 
 @Composable
 fun Game(modifier: Modifier = Modifier) {
