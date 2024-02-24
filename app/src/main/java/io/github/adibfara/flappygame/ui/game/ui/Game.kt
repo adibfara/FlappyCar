@@ -15,6 +15,7 @@ import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.engine.TimeManager
 import io.github.adibfara.flappygame.ui.game.logic.GameScoreLogic
+import io.github.adibfara.flappygame.ui.game.logic.GameStatusLogic
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 
@@ -23,11 +24,16 @@ fun Game(modifier: Modifier = Modifier) {
     val timeManager = remember {
         TimeManager()
     }
+
+    val gameStatusLogic = remember {
+        GameStatusLogic()
+    }
+
     val coroutineScope = remember {
         gameCoroutineScope()
     }
     val playerLogic = remember {
-        PlayerLogic()
+        PlayerLogic(gameStatusLogic)
     }
 
     val blockLogic = remember {
@@ -41,8 +47,14 @@ fun Game(modifier: Modifier = Modifier) {
         GameScoreLogic(playerLogic, blockLogic)
     }
     val logicManager = remember {
-        val logics = listOf(playerLogic, blockLogic, playerCollisionLogic, gameScoreLogic)
-        LogicManager(logics, timeManager, coroutineScope)
+        val logics = listOf(
+            playerLogic,
+            blockLogic,
+            playerCollisionLogic,
+            gameScoreLogic,
+            gameStatusLogic,
+        )
+        LogicManager(logics, gameStatusLogic, timeManager, coroutineScope)
     }
     Box(modifier.clickable {
         playerLogic.jump()
@@ -53,6 +65,7 @@ fun Game(modifier: Modifier = Modifier) {
             gameScoreLogic.score.collectAsState().value.toString(),
             Modifier.align(Alignment.TopEnd)
         )
+        Text(gameStatusLogic.gameState.collectAsState().value.toString())
     }
 }
 
