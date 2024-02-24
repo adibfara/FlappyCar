@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntOffset
@@ -22,12 +23,10 @@ import io.github.adibfara.flappygame.ui.game.model.toDpSize
 internal fun Player(
     modifier: Modifier,
     playerLogic: PlayerLogic,
-    playerCollisionLogic: PlayerCollisionLogic,
 ) {
     Box(modifier) {
 
         val player = playerLogic.player.collectAsState()
-        val collided = playerCollisionLogic.collision.collectAsState().value
         Image(
             painterResource(id = R.drawable.car),
             contentDescription = null,
@@ -36,6 +35,9 @@ internal fun Player(
                     IntOffset(x = 0, y = player.value.y.dp.roundToPx())
                 }
                 .size(player.value.size.toDpSize())
+                .graphicsLayer {
+                    rotationZ = player.value.speed * 90f
+                }
         )
     }
 }

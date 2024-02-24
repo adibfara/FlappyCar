@@ -2,6 +2,7 @@ package io.github.adibfara.flappygame.ui.game.ui
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
@@ -92,11 +93,13 @@ fun Game(modifier: Modifier = Modifier) {
         Box(
             Modifier
                 .fillMaxSize()
-                .clickable {
+                .clickable(interactionSource = remember {
+                    MutableInteractionSource()
+                }, indication = null) {
                     playerLogic.jump()
                 }) {
             Background(timeManager)
-            Player(Modifier, playerLogic, playerCollisionLogic)
+            Player(Modifier, playerLogic)
             Block(blockMovementLogic)
             Text(
                 gameScoreLogic.score.collectAsState().value.toString(),
