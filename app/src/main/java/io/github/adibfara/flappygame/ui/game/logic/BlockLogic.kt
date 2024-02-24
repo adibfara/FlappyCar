@@ -3,20 +3,26 @@ package io.github.adibfara.flappygame.ui.game.logic
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
+import io.github.adibfara.flappygame.ui.game.model.Viewport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class BlockLogic : GameLogic, OnGameOverLogic {
-    val defaultBlock = Block(Pipe(0f, 200f, 0f), Pipe(300f, 450f, 0f))
+class BlockLogic(
+    viewport: Viewport
+) : GameLogic, OnGameOverLogic {
+    private val defaultBlock = Block(
+        Pipe(0f, 200f, 0f),
+        Pipe(300f, viewport.height, 0f)
+    )
     private val _blockPosition = MutableStateFlow(defaultBlock)
     val blockPosition: StateFlow<Block> = _blockPosition
 
 
     init {
-        updateBlockX { _ -> 400f }
+        resetBlock()
     }
 
     override fun onUpdate(deltaTime: Float) {
@@ -49,7 +55,12 @@ class BlockLogic : GameLogic, OnGameOverLogic {
     }
 
     override fun onGameOver() {
-        _blockPosition.value = defaultBlock
+        resetBlock()
+    }
+
+    private fun resetBlock() {
+        _blockPosition.update { defaultBlock }
+        updateBlockX { _ -> 400f }
     }
 
 }
