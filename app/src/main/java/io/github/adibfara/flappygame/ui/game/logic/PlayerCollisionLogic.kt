@@ -1,5 +1,6 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
+import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import io.github.adibfara.flappygame.ui.game.model.Player
@@ -10,26 +11,20 @@ import kotlinx.coroutines.launch
 
 class PlayerCollisionLogic(
     private val playerLogic: PlayerLogic,
-    private val blockLogic: BlockLogic,
-    private val timeManager: TimeManager,
-    private val coroutineScope: CoroutineScope
-) {
+    private val blockLogic: BlockLogic
+) : GameLogic {
     val collision = MutableStateFlow(false)
 
-    init {
-        coroutineScope.launch {
-            timeManager.deltaTime.collect {
-                val player = playerLogic.player.value
-                val block = blockLogic.blockPosition.value
+    override fun onUpdate(deltaTime: Float) {
+        val player = playerLogic.player.value
+        val block = blockLogic.blockPosition.value
 
-                val topPipeCollided = collided(player, block.topPipe)
-                val bottomPipeCollided = collided(player, block.bottomPipe)
+        val topPipeCollided = collided(player, block.topPipe)
+        val bottomPipeCollided = collided(player, block.bottomPipe)
 
-                val collisionHappened = topPipeCollided || bottomPipeCollided
+        val collisionHappened = topPipeCollided || bottomPipeCollided
 
-                collision.value = collisionHappened
-            }
-        }
+        collision.value = collisionHappened
     }
 
     private fun collided(

@@ -1,4 +1,4 @@
-package io.github.adibfara.flappygame.ui.game.logic
+package io.github.adibfara.flappygame.ui.game.engine
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
