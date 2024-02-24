@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class BlockLogic : GameLogic {
-    private val _blockPosition = MutableStateFlow(Block(Pipe(0f, 200f, 0f), Pipe(300f, 450f, 0f)))
+class BlockLogic : GameLogic, OnGameOverLogic {
+    val defaultBlock = Block(Pipe(0f, 200f, 0f), Pipe(300f, 450f, 0f))
+    private val _blockPosition = MutableStateFlow(defaultBlock)
     val blockPosition: StateFlow<Block> = _blockPosition
 
 
@@ -46,4 +47,9 @@ class BlockLogic : GameLogic {
             it.copy(hasBeenScored = true)
         }
     }
+
+    override fun onGameOver() {
+        _blockPosition.value = defaultBlock
+    }
+
 }

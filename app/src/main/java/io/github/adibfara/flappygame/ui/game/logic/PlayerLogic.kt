@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerLogic(private val gameStatusLogic: GameStatusLogic) : GameLogic {
-    private val _playerPosition = MutableStateFlow(Player(100f, 0f))
+class PlayerLogic(private val gameStatusLogic: GameStatusLogic) : GameLogic, OnGameOverLogic {
+    private val defaultPlayer = Player(100f, 0f)
+    private val _playerPosition = MutableStateFlow(defaultPlayer)
     val player: StateFlow<Player> = _playerPosition
 
 
@@ -36,5 +37,7 @@ class PlayerLogic(private val gameStatusLogic: GameStatusLogic) : GameLogic {
         }
     }
 
-
+    override fun onGameOver() {
+        _playerPosition.value = defaultPlayer
+    }
 }

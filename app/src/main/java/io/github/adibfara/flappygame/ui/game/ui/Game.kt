@@ -14,8 +14,10 @@ import io.github.adibfara.flappygame.ui.game.logic.BlockLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.engine.TimeManager
+import io.github.adibfara.flappygame.ui.game.logic.GameOverManager
 import io.github.adibfara.flappygame.ui.game.logic.GameScoreLogic
 import io.github.adibfara.flappygame.ui.game.logic.GameStatusLogic
+import io.github.adibfara.flappygame.ui.game.logic.OnGameOverLogic
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 
@@ -45,6 +47,12 @@ fun Game(modifier: Modifier = Modifier) {
 
     val gameScoreLogic = remember {
         GameScoreLogic(playerLogic, blockLogic)
+    }
+
+    val gameOverManager = remember {
+        val onGameOverLogics: List<OnGameOverLogic> =
+            listOf(playerLogic, blockLogic, gameScoreLogic)
+        GameOverManager(gameStatusLogic, onGameOverLogics, coroutineScope)
     }
     val logicManager = remember {
         val logics = listOf(
