@@ -40,7 +40,7 @@ fun Game(modifier: Modifier = Modifier) {
         BlockLogic()
     }
     val playerCollisionLogic = remember {
-        PlayerCollisionLogic(playerLogic, blockLogic)
+        PlayerCollisionLogic(playerLogic, blockLogic, gameStatusLogic)
     }
 
     val gameScoreLogic = remember {

@@ -20,4 +20,8 @@ class GameStatusLogic : GameLogic {
     fun isStarted(): Boolean {
         return _gameState.value == GameStatus.Started
     }
+
+    fun gameOver() {
+        _gameState.update { GameStatus.GameOver }
+    }
 }

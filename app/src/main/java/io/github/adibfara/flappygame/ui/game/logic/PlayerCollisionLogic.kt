@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 
 class PlayerCollisionLogic(
     private val playerLogic: PlayerLogic,
-    private val blockLogic: BlockLogic
+    private val blockLogic: BlockLogic,
+    private val gameStatusLogic: GameStatusLogic
 ) : GameLogic {
     val collision = MutableStateFlow(false)
 
@@ -24,6 +25,9 @@ class PlayerCollisionLogic(
 
         val collisionHappened = topPipeCollided || bottomPipeCollided
 
+        if (collisionHappened) {
+            gameStatusLogic.gameOver()
+        }
         collision.value = collisionHappened
     }
 
