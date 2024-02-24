@@ -15,18 +15,17 @@ class PlayerCollisionLogic(
     override fun onUpdate(deltaTime: Float) {
         val player = playerLogic.player.value
         val blocks = blockMovementLogic.blockPosition.value
+        blocks.forEach { block ->
+            val topPipeCollided = collided(player, block.topPipe)
+            val bottomPipeCollided = collided(player, block.bottomPipe)
 
-        val block = blocks.firstOrNull() ?: return
+            val collisionHappened = topPipeCollided || bottomPipeCollided
 
-        val topPipeCollided = collided(player, block.topPipe)
-        val bottomPipeCollided = collided(player, block.bottomPipe)
-
-        val collisionHappened = topPipeCollided || bottomPipeCollided
-
-        if (collisionHappened) {
-            gameStatusLogic.gameOver()
+            if (collisionHappened) {
+                gameStatusLogic.gameOver()
+            }
+            collision.value = collisionHappened
         }
-        collision.value = collisionHappened
     }
 
     private fun collided(
