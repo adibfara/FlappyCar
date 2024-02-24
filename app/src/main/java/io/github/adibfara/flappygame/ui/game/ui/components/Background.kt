@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.R
 import io.github.adibfara.flappygame.ui.game.engine.TimeManager
 import io.github.adibfara.flappygame.ui.game.engine.compose.toPx
+import io.github.adibfara.flappygame.ui.game.logic.BlockMovementLogic.Companion.scrollAmount
 import io.github.adibfara.flappygame.ui.game.ui.resizeTo
 import kotlinx.coroutines.delay
 
@@ -31,9 +32,8 @@ internal fun Background(timeManager: TimeManager) {
         var scrollX by remember { mutableStateOf(0f) }
         LaunchedEffect(key1 = Unit) {
             timeManager.deltaTime.collect { deltaTime ->
-                scrollX -= deltaTime * 0.1f
+                scrollX -= deltaTime * scrollAmount
             }
-
         }
         val paint = Paint().asFrameworkPaint().apply {
             shader = BitmapShader(

@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Random
 
 class BlockSpawnerLogic(
     private val blockMovementLogic: BlockMovementLogic,
@@ -31,7 +32,8 @@ class BlockSpawnerLogic(
 
     private suspend fun spawn() {
         while (true) {
-            delay(1500)
+            val randomTime = 1500 + (Random().nextFloat() * 1000)
+            delay(randomTime.toLong())
             val existingBlock = blockMovementLogic.blockPosition.value.firstOrNull {
                 it.topPipe.x < -100
             }

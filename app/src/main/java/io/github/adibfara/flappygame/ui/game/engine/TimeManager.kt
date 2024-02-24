@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.flow
 class TimeManager {
     val deltaTime = flow {
         while (true) {
-            val time = 20
+            val time = 1
             delay(time.toLong())
-            emit(time.toFloat())
+            emit(time.toFloat() * 2)
         }
     }
 
