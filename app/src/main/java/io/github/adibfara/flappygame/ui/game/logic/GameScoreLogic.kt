@@ -13,7 +13,8 @@ class GameScoreLogic(
     private val _score = MutableStateFlow(0)
     val score: StateFlow<Int> = _score
     override fun onUpdate(deltaTime: Float) {
-        val block = blockLogic.blockPosition.value
+        val blocks = blockLogic.blockPosition.value
+        val block = blocks.first()
         if (block.hasBeenScored) return
 
         val scoreRect = block.scoreRect

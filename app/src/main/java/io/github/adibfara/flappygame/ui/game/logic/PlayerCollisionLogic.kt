@@ -18,7 +18,9 @@ class PlayerCollisionLogic(
 
     override fun onUpdate(deltaTime: Float) {
         val player = playerLogic.player.value
-        val block = blockLogic.blockPosition.value
+        val blocks = blockLogic.blockPosition.value
+
+        val block = blocks.first()
 
         val topPipeCollided = collided(player, block.topPipe)
         val bottomPipeCollided = collided(player, block.bottomPipe)

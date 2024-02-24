@@ -16,8 +16,8 @@ class BlockLogic(
     private val viewport: Viewport
 ) : GameLogic, OnGameOverLogic {
     private val blockCreator = BlockCreator(viewport)
-    private val _blockPosition = MutableStateFlow(blockCreator.createBlock())
-    val blockPosition: StateFlow<Block> = _blockPosition
+    private val _blockPosition = MutableStateFlow(listOf(blockCreator.createBlock()))
+    val blockPosition: StateFlow<List<Block>> = _blockPosition
 
     init {
         resetBlock()
@@ -25,7 +25,7 @@ class BlockLogic(
 
     override fun onUpdate(deltaTime: Float) {
         updateBlockX { x ->
-            var newX = x - (deltaTime * 0.4f)
+            var newX = x - (deltaTime * 0.2f)
             if (newX < -100f) {
                 newX = viewport.width
             }
@@ -34,8 +34,9 @@ class BlockLogic(
     }
 
     private fun updateBlockX(update: (Float) -> Float) {
-        _blockPosition.update { block ->
-            block.copy(
+        _blockPosition.update { blocks ->
+            val block = blocks.first()
+            val newBlock = block.copy(
                 topPipe = block.topPipe.copy(
                     x = update(block.topPipe.x)
                 ),
@@ -43,12 +44,15 @@ class BlockLogic(
                     x = update(block.bottomPipe.x)
                 )
             )
+            blocks.toMutableList().apply {
+                set(0, newBlock)
+            }
         }
     }
 
     fun scoreBlock(block: Block) {
         _blockPosition.update {
-            it.copy(hasBeenScored = true)
+            it.map { it.copy(hasBeenScored = true) }
         }
     }
 
@@ -57,7 +61,7 @@ class BlockLogic(
     }
 
     private fun resetBlock() {
-        _blockPosition.update { blockCreator.createBlock() }
+        _blockPosition.update { listOf(blockCreator.createBlock()) }
         updateBlockX { _ -> viewport.width }
     }
 
