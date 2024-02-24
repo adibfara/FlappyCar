@@ -18,20 +18,22 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.R
+import io.github.adibfara.flappygame.ui.game.engine.TimeManager
 import io.github.adibfara.flappygame.ui.game.engine.compose.toPx
 import io.github.adibfara.flappygame.ui.game.ui.resizeTo
 import kotlinx.coroutines.delay
 
 @Composable
-internal fun Background() {
+internal fun Background(timeManager: TimeManager) {
     BoxWithConstraints {
         var scrollX by remember { mutableStateOf(0f) }
         LaunchedEffect(key1 = Unit) {
-            while (true) {
-                delay(1)
-                scrollX -= 1f
+            timeManager.deltaTime.collect { deltaTime ->
+                scrollX -= deltaTime * 0.1f
             }
+
         }
         val paint = Paint().asFrameworkPaint().apply {
             shader = BitmapShader(
@@ -43,7 +45,7 @@ internal fun Background() {
         }
         Canvas(modifier = Modifier.fillMaxSize()) {
             drawIntoCanvas {
-                it.translate(scrollX, 0f)
+                it.translate(scrollX.dp.toPx(), 0f)
                 it.nativeCanvas.drawPaint(
                     paint
                 )

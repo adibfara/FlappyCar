@@ -102,7 +102,7 @@ fun Game(modifier: Modifier = Modifier) {
                 .clickable {
                     playerLogic.jump()
                 }) {
-            Background()
+            Background(timeManager)
             Player(Modifier, playerLogic, playerCollisionLogic)
             Block(blockLogic)
             Text(
