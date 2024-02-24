@@ -1,5 +1,7 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
+import android.os.Parcel
+import android.os.Parcelable
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
@@ -11,12 +13,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class BlockLogic(
-    viewport: Viewport
+    private val viewport: Viewport
 ) : GameLogic, OnGameOverLogic {
     private val blockCreator = BlockCreator(viewport)
     private val _blockPosition = MutableStateFlow(blockCreator.createBlock())
     val blockPosition: StateFlow<Block> = _blockPosition
-
 
     init {
         resetBlock()
@@ -26,7 +27,7 @@ class BlockLogic(
         updateBlockX { x ->
             var newX = x - (deltaTime * 0.4f)
             if (newX < -100f) {
-                newX = 400f
+                newX = viewport.width
             }
             newX
         }
@@ -57,7 +58,7 @@ class BlockLogic(
 
     private fun resetBlock() {
         _blockPosition.update { blockCreator.createBlock() }
-        updateBlockX { _ -> 400f }
+        updateBlockX { _ -> viewport.width }
     }
 
 }
