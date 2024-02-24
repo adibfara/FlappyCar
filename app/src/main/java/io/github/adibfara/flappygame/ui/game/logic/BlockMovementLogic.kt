@@ -24,11 +24,7 @@ class BlockMovementLogic(
 
     override fun onUpdate(deltaTime: Float) {
         updateBlockX { x ->
-            var newX = x - (deltaTime * 0.2f)
-            if (newX < -100f) {
-                newX = viewport.width
-            }
-            newX
+            x - (deltaTime * 0.2f)
         }
     }
 
@@ -50,7 +46,7 @@ class BlockMovementLogic(
     fun scoreBlock(block: Block) {
         _blockPosition.update {
             it.map {
-                if (it != block) return@map it
+                if (it.id != block.id) return@map it
                 it.copy(hasBeenScored = true)
             }
         }
@@ -68,6 +64,17 @@ class BlockMovementLogic(
     fun addBlock(createBlock: Block) {
         _blockPosition.update {
             it + createBlock
+        }
+    }
+
+    fun updateBlock(existingBlock: Block, updatedBlock: Block) {
+        _blockPosition.update { blocks ->
+            blocks.map { block ->
+                if (block.id == existingBlock.id) {
+                    return@map updatedBlock
+                }
+                block
+            }
         }
     }
 

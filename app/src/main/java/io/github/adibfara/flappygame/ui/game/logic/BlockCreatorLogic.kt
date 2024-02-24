@@ -16,8 +16,21 @@ class BlockCreatorLogic(
     init {
         coroutineScope.launch {
             while (true) {
-                delay(500)
-                blockMovementLogic.addBlock(blockCreator.createBlock())
+                delay(1500)
+                val existingBlock = blockMovementLogic.blockPosition.value.firstOrNull {
+                    it.topPipe.x < -100
+                }
+                val createBlock = blockCreator.createBlock()
+                if (existingBlock != null) {
+                    val updatedBlock = existingBlock.copy(
+                        hasBeenScored = false,
+                        topPipe = createBlock.topPipe,
+                        bottomPipe = createBlock.bottomPipe
+                    )
+                    blockMovementLogic.updateBlock(existingBlock, updatedBlock)
+                } else {
+                    blockMovementLogic.addBlock(createBlock)
+                }
             }
         }
     }

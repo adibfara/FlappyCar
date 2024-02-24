@@ -11,6 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.Dp
 import io.github.adibfara.flappygame.R
@@ -99,9 +100,9 @@ fun Game(modifier: Modifier = Modifier) {
             Block(blockMovementLogic)
             Text(
                 gameScoreLogic.score.collectAsState().value.toString(),
-                Modifier.align(Alignment.TopEnd)
+                Modifier.align(Alignment.TopEnd),
+                color = Color.White
             )
-            Text(gameStatusLogic.gameState.collectAsState().value.toString())
         }
     }
 }

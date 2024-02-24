@@ -2,12 +2,14 @@ package io.github.adibfara.flappygame.ui.game.model
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import java.util.UUID
 
 data class Block(
     val topPipe: Pipe,
     val bottomPipe: Pipe,
     val hasBeenScored: Boolean = false
 ) {
+    val id: String = UUID.randomUUID().toString()
     val scoreRect = Rect(topPipe.rect.bottomLeft, bottomPipe.rect.topRight)
 }
 
