@@ -4,6 +4,7 @@ import io.github.adibfara.flappygame.ui.game.model.GameStatus
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -18,7 +19,7 @@ class BlockSpawnerLogic(
 
     init {
         coroutineScope.launch {
-            gameStatusLogic.gameState.onEach { gameState ->
+            gameStatusLogic.gameState.mapLatest { gameState ->
                 if (gameState == GameStatus.Started) {
                     spawn()
                 }
