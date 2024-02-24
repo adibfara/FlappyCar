@@ -24,7 +24,7 @@ class BlockLogic(
 
     override fun onUpdate(deltaTime: Float) {
         updateBlockX { x ->
-            var newX = x - (deltaTime * 0.1f)
+            var newX = x - (deltaTime * 0.4f)
             if (newX < -100f) {
                 newX = 400f
             }

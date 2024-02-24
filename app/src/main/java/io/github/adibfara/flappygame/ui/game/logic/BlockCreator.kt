@@ -19,10 +19,15 @@ class BlockCreator(private val viewport: Viewport) {
 
         val randomFloat = Random().nextFloat()
         val gateHeight = minimumHeight + (usableHeight - minimumHeight) * randomFloat
-        val topPipeHeight = pipeMinimumHeight
+
+        val minimumGateStartY = pipeMinimumHeight
+        val maximumGateEndY = totalHeight * (1f - minimumHeightPercentage) - gateHeight
+
+        val gateStart = minimumGateStartY + (Random().nextFloat()) * maximumGateEndY
+
         return Block(
-            Pipe(0f, topPipeHeight, 0f),
-            Pipe(topPipeHeight + gateHeight, totalHeight, 0f)
+            Pipe(0f, gateStart, 0f),
+            Pipe(gateStart + gateHeight, totalHeight, 0f)
         )
     }
 }
