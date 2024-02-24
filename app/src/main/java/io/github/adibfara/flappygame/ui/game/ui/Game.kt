@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -13,11 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import io.github.adibfara.flappygame.ui.game.di.GameDI
 import io.github.adibfara.flappygame.ui.game.di.GameDI.Companion.rememberDI
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 import io.github.adibfara.flappygame.ui.game.ui.components.Background
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
+import io.github.adibfara.flappygame.ui.game.ui.components.Score
 
 @Composable
 fun Game(modifier: Modifier = Modifier) {
@@ -42,11 +45,7 @@ fun Game(modifier: Modifier = Modifier) {
             Background(di.timeManager)
             Player(Modifier, di.playerLogic)
             Block(di.blockMovementLogic)
-            Text(
-                di.gameScoreLogic.score.collectAsState().value.toString(),
-                Modifier.align(Alignment.TopEnd),
-                color = Color.White
-            )
+            Score(di)
         }
     }
 }
