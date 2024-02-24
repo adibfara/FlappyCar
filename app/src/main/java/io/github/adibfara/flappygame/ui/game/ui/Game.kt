@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.Dp
 import io.github.adibfara.flappygame.R
+import io.github.adibfara.flappygame.ui.game.di.GameDI.Companion.rememberDI
 import io.github.adibfara.flappygame.ui.game.engine.LogicManager
 import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
 import io.github.adibfara.flappygame.ui.game.logic.BlockMovementLogic
@@ -44,65 +45,21 @@ fun Game(modifier: Modifier = Modifier) {
         val viewPort = remember {
             Viewport(maxWidthPx, maxHeightPx)
         }
+        val di = rememberDI(viewPort)
 
-        val timeManager = remember {
-            TimeManager()
-        }
-
-        val gameStatusLogic = remember {
-            GameStatusLogic()
-        }
-
-        val coroutineScope = remember {
-            gameCoroutineScope()
-        }
-        val playerLogic = remember {
-            PlayerLogic(gameStatusLogic)
-        }
-
-        val blockMovementLogic = remember {
-            BlockMovementLogic(viewPort)
-        }
-        val playerCollisionLogic = remember {
-            PlayerCollisionLogic(playerLogic, blockMovementLogic, gameStatusLogic)
-        }
-
-        val gameScoreLogic = remember {
-            GameScoreLogic(playerLogic, blockMovementLogic)
-        }
-
-        val gameOverManager = remember {
-            val onGameOverLogics: List<OnGameOverLogic> =
-                listOf(playerLogic, blockMovementLogic, gameScoreLogic)
-            GameOverManager(gameStatusLogic, onGameOverLogics, coroutineScope)
-        }
-        val logicManager = remember {
-            val logics = listOf(
-                playerLogic,
-                blockMovementLogic,
-                playerCollisionLogic,
-                gameScoreLogic,
-                gameStatusLogic,
-            )
-            LogicManager(logics, gameStatusLogic, timeManager, coroutineScope)
-        }
-
-        val blockCreatorLogic = remember {
-            BlockCreatorLogic(blockMovementLogic, coroutineScope, viewPort)
-        }
         Box(
             Modifier
                 .fillMaxSize()
                 .clickable(interactionSource = remember {
                     MutableInteractionSource()
                 }, indication = null) {
-                    playerLogic.jump()
+                    di.playerLogic.jump()
                 }) {
-            Background(timeManager)
-            Player(Modifier, playerLogic)
-            Block(blockMovementLogic)
+            Background(di.timeManager)
+            Player(Modifier, di.playerLogic)
+            Block(di.blockMovementLogic)
             Text(
-                gameScoreLogic.score.collectAsState().value.toString(),
+                di.gameScoreLogic.score.collectAsState().value.toString(),
                 Modifier.align(Alignment.TopEnd),
                 color = Color.White
             )
