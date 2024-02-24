@@ -22,7 +22,7 @@ class GameDI(private val viewport: Viewport) {
     val playerLogic = PlayerLogic(gameStatusLogic)
     val blockMovementLogic = BlockMovementLogic(viewport)
     val playerCollisionLogic =
-        PlayerCollisionLogic(playerLogic, blockMovementLogic, gameStatusLogic)
+        PlayerCollisionLogic(playerLogic, blockMovementLogic, gameStatusLogic, viewport)
     val gameScoreLogic = GameScoreLogic(playerLogic, blockMovementLogic)
     private val onGameOverLogics: List<OnGameOverLogic> =
         listOf(playerLogic, blockMovementLogic, gameScoreLogic)

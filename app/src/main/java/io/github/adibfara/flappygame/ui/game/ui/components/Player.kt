@@ -36,7 +36,7 @@ internal fun Player(
                 }
                 .size(player.value.size.toDpSize())
                 .graphicsLayer {
-                    rotationZ = player.value.speed * 90f
+                    rotationZ = (player.value.speed * 90f).coerceIn(-60f, 60f)
                 }
         )
     }
