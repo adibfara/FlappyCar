@@ -14,11 +14,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import io.github.adibfara.flappygame.ui.game.di.GameDI
 import io.github.adibfara.flappygame.ui.game.di.GameDI.Companion.rememberDI
+import io.github.adibfara.flappygame.ui.game.model.GameStatus
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 import io.github.adibfara.flappygame.ui.game.ui.components.Background
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
+import io.github.adibfara.flappygame.ui.game.ui.components.GameStartUI
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 import io.github.adibfara.flappygame.ui.game.ui.components.Score
 
@@ -46,6 +49,7 @@ fun Game(modifier: Modifier = Modifier) {
             Player(Modifier, di.playerLogic)
             Block(di.blockMovementLogic)
             Score(di)
+            GameStartUI(di)
         }
     }
 }
