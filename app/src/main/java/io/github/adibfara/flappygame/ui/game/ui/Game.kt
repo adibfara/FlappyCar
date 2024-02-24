@@ -39,6 +39,7 @@ import io.github.adibfara.flappygame.ui.game.logic.GameScoreLogic
 import io.github.adibfara.flappygame.ui.game.logic.GameStatusLogic
 import io.github.adibfara.flappygame.ui.game.logic.OnGameOverLogic
 import io.github.adibfara.flappygame.ui.game.model.Viewport
+import io.github.adibfara.flappygame.ui.game.ui.components.Background
 import io.github.adibfara.flappygame.ui.game.ui.components.Block
 import io.github.adibfara.flappygame.ui.game.ui.components.Player
 import kotlinx.coroutines.delay
@@ -101,32 +102,7 @@ fun Game(modifier: Modifier = Modifier) {
                 .clickable {
                     playerLogic.jump()
                 }) {
-            Box {
-                var scrollX by remember { mutableStateOf(0f) }
-                LaunchedEffect(key1 = Unit) {
-                    while (true) {
-                        delay(1)
-                        scrollX -= 1f
-                    }
-                }
-                val paint = Paint().asFrameworkPaint().apply {
-                    shader = BitmapShader(
-                        ImageBitmap.imageResource(id = R.drawable.background).asAndroidBitmap()
-                            .resizeTo(maxHeightPx.toInt()),
-                        Shader.TileMode.REPEAT,
-                        Shader.TileMode.MIRROR
-                    )
-                }
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    drawIntoCanvas {
-                        it.translate(scrollX, 0f)
-                        it.nativeCanvas.drawPaint(
-                            paint
-                        )
-                        it.translate(0f, 0f)
-                    }
-                }
-            }
+            Background()
             Player(Modifier, playerLogic, playerCollisionLogic)
             Block(blockLogic)
             Text(
