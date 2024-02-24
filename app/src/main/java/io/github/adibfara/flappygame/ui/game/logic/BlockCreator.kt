@@ -26,8 +26,8 @@ class BlockCreator(private val viewport: Viewport) {
         val gateStart = minimumGateStartY + (Random().nextFloat()) * maximumGateEndY
 
         return Block(
-            Pipe(0f, gateStart, 0f),
-            Pipe(gateStart + gateHeight, totalHeight, 0f)
+            Pipe(0f, gateStart, viewport.width),
+            Pipe(gateStart + gateHeight, totalHeight, viewport.width)
         )
     }
 }

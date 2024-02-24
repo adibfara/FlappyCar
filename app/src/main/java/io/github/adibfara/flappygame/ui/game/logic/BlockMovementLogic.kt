@@ -12,11 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class BlockLogic(
+class BlockMovementLogic(
     private val viewport: Viewport
 ) : GameLogic, OnGameOverLogic {
-    private val blockCreator = BlockCreator(viewport)
-    private val _blockPosition = MutableStateFlow(listOf(blockCreator.createBlock()))
+    private val _blockPosition = MutableStateFlow<List<Block>>(listOf())
     val blockPosition: StateFlow<List<Block>> = _blockPosition
 
     init {
@@ -35,24 +34,25 @@ class BlockLogic(
 
     private fun updateBlockX(update: (Float) -> Float) {
         _blockPosition.update { blocks ->
-            val block = blocks.first()
-            val newBlock = block.copy(
-                topPipe = block.topPipe.copy(
-                    x = update(block.topPipe.x)
-                ),
-                bottomPipe = block.bottomPipe.copy(
-                    x = update(block.bottomPipe.x)
+            blocks.map { block ->
+                block.copy(
+                    topPipe = block.topPipe.copy(
+                        x = update(block.topPipe.x)
+                    ),
+                    bottomPipe = block.bottomPipe.copy(
+                        x = update(block.bottomPipe.x)
+                    )
                 )
-            )
-            blocks.toMutableList().apply {
-                set(0, newBlock)
             }
         }
     }
 
     fun scoreBlock(block: Block) {
         _blockPosition.update {
-            it.map { it.copy(hasBeenScored = true) }
+            it.map {
+                if (it != block) return@map it
+                it.copy(hasBeenScored = true)
+            }
         }
     }
 
@@ -61,8 +61,14 @@ class BlockLogic(
     }
 
     private fun resetBlock() {
-        _blockPosition.update { listOf(blockCreator.createBlock()) }
+        _blockPosition.update { listOf() }
         updateBlockX { _ -> viewport.width }
+    }
+
+    fun addBlock(createBlock: Block) {
+        _blockPosition.update {
+            it + createBlock
+        }
     }
 
 }

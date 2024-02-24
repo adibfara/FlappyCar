@@ -1,26 +1,22 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
-import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import io.github.adibfara.flappygame.ui.game.model.Player
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 class PlayerCollisionLogic(
     private val playerLogic: PlayerLogic,
-    private val blockLogic: BlockLogic,
+    private val blockMovementLogic: BlockMovementLogic,
     private val gameStatusLogic: GameStatusLogic
 ) : GameLogic {
     val collision = MutableStateFlow(false)
 
     override fun onUpdate(deltaTime: Float) {
         val player = playerLogic.player.value
-        val blocks = blockLogic.blockPosition.value
+        val blocks = blockMovementLogic.blockPosition.value
 
-        val block = blocks.first()
+        val block = blocks.firstOrNull() ?: return
 
         val topPipeCollided = collided(player, block.topPipe)
         val bottomPipeCollided = collided(player, block.bottomPipe)
