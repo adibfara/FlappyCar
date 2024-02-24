@@ -13,11 +13,8 @@ import kotlinx.coroutines.launch
 class BlockLogic(
     viewport: Viewport
 ) : GameLogic, OnGameOverLogic {
-    private val defaultBlock = Block(
-        Pipe(0f, 200f, 0f),
-        Pipe(300f, viewport.height, 0f)
-    )
-    private val _blockPosition = MutableStateFlow(defaultBlock)
+    private val blockCreator = BlockCreator(viewport)
+    private val _blockPosition = MutableStateFlow(blockCreator.createBlock())
     val blockPosition: StateFlow<Block> = _blockPosition
 
 
@@ -59,7 +56,7 @@ class BlockLogic(
     }
 
     private fun resetBlock() {
-        _blockPosition.update { defaultBlock }
+        _blockPosition.update { blockCreator.createBlock() }
         updateBlockX { _ -> 400f }
     }
 

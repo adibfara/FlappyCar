@@ -48,8 +48,8 @@ import kotlinx.coroutines.delay
 fun Game(modifier: Modifier = Modifier) {
     BoxWithConstraints(modifier = modifier) {
 
-        val maxWidthPx = maxWidth.toPx()
-        val maxHeightPx = maxHeight.toPx()
+        val maxWidthPx = maxWidth.value
+        val maxHeightPx = maxHeight.value
 
         val viewPort = remember {
             Viewport(maxWidthPx, maxHeightPx)
