@@ -1,5 +1,6 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
+import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import io.github.adibfara.flappygame.ui.game.model.Player
@@ -20,7 +21,7 @@ class PlayerCollisionLogic(
 
     private fun checkPlayerOutOfBounds(): Boolean {
         val playerY = playerLogic.player.value.y
-        if (playerY > viewport.height || playerY < -50) {
+        if (playerY > viewport.height || playerY < (-50).dp) {
             gameStatusLogic.gameOver()
             return true
         }

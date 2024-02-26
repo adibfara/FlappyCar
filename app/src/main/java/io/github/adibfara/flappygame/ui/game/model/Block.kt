@@ -2,6 +2,8 @@ package io.github.adibfara.flappygame.ui.game.model
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import java.util.UUID
 
 data class Block(
@@ -14,10 +16,13 @@ data class Block(
 }
 
 data class Pipe(
-    val topY: Float,
-    val bottomY: Float,
-    val x: Float,
-    val width: Float = 20f
+    val topY: Dp,
+    val bottomY: Dp,
+    val x: Dp,
+    val width: Dp = 20.dp
 ) {
-    val rect = Rect(topLeft = Offset(x, topY), bottomRight = Offset(x + width, bottomY))
+    val rect = Rect(
+        topLeft = Offset(x.value, topY.value),
+        bottomRight = Offset((x + width).value, bottomY.value)
+    )
 }

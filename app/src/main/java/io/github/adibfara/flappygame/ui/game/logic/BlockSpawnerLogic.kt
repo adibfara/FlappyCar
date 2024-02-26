@@ -1,5 +1,6 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
+import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.model.GameStatus
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +36,7 @@ class BlockSpawnerLogic(
             val randomTime = 1500 + (Random().nextFloat() * 1000)
             delay(randomTime.toLong())
             val existingBlock = blockMovementLogic.blockPosition.value.firstOrNull {
-                it.topPipe.x < -100
+                it.topPipe.x < blockDestructionPoint
             }
             val createBlock = blockCreator.createBlock()
             if (existingBlock != null) {
@@ -49,5 +50,10 @@ class BlockSpawnerLogic(
                 blockMovementLogic.addBlock(createBlock)
             }
         }
+    }
+
+    companion object {
+        private val blockDestructionPoint = (-100).dp
+
     }
 }

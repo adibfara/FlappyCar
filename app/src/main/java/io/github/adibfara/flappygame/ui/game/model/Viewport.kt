@@ -1,3 +1,5 @@
 package io.github.adibfara.flappygame.ui.game.model
 
-data class Viewport(val width: Float, val height: Float)
+import androidx.compose.ui.unit.Dp
+
+data class Viewport(val width: Dp, val height: Dp)

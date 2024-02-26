@@ -30,11 +30,8 @@ import io.github.adibfara.flappygame.ui.game.ui.components.Score
 fun Game(modifier: Modifier = Modifier) {
     BoxWithConstraints(modifier = modifier) {
 
-        val maxWidthPx = maxWidth.value
-        val maxHeightPx = maxHeight.value
-
         val viewPort = remember {
-            Viewport(maxWidthPx, maxHeightPx)
+            Viewport(maxWidth, maxHeight)
         }
         val di = rememberDI(viewPort)
 

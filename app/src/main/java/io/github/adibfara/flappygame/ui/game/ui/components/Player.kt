@@ -32,7 +32,7 @@ internal fun Player(
             contentDescription = null,
             Modifier
                 .offset {
-                    IntOffset(x = 0, y = player.value.y.dp.roundToPx())
+                    IntOffset(x = 0, y = player.value.y.roundToPx())
                 }
                 .size(player.value.size.toDpSize())
                 .graphicsLayer {

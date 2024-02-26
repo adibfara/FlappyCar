@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import io.github.adibfara.flappygame.ui.game.di.GameDI
 import io.github.adibfara.flappygame.ui.game.model.GameStatus
@@ -20,6 +21,7 @@ internal fun BoxScope.GameStartUI(di: GameDI) {
             "Tap To Start!",
             color = Color.White,
             modifier = Modifier.align(Alignment.Center),
-            fontSize = 22.sp
+            fontSize = 58.sp,
+            fontWeight = FontWeight.Black
         )
 }

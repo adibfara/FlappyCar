@@ -1,5 +1,6 @@
 package io.github.adibfara.flappygame.ui.game.logic
 
+import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
 import io.github.adibfara.flappygame.ui.game.model.Viewport
@@ -15,7 +16,7 @@ class BlockCreator(private val viewport: Viewport) {
         val usableHeight =
             (totalHeight * (1f - minimumHeightPercentage)).coerceAtMost(maximumGateHeight)
         val minimumHeight = usableHeight * minimumGateHeightPercentage
-        val pipeMinimumHeight = (minimumHeightPercentage / 2f) * viewport.height
+        val pipeMinimumHeight = viewport.height * (minimumHeightPercentage / 2f)
 
         val randomFloat = Random().nextFloat()
         val gateHeight = minimumHeight + (usableHeight - minimumHeight) * randomFloat
@@ -23,10 +24,10 @@ class BlockCreator(private val viewport: Viewport) {
         val minimumGateStartY = pipeMinimumHeight
         val maximumGateEndY = totalHeight * (1f - minimumHeightPercentage) - gateHeight
 
-        val gateStart = minimumGateStartY + (Random().nextFloat()) * maximumGateEndY
+        val gateStart = minimumGateStartY + maximumGateEndY * (Random().nextFloat())
 
         return Block(
-            Pipe(0f, gateStart, viewport.width),
+            Pipe(0.dp, gateStart, viewport.width),
             Pipe(gateStart + gateHeight, totalHeight, viewport.width)
         )
     }

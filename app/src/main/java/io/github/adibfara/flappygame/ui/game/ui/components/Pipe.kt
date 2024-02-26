@@ -23,9 +23,9 @@ internal fun Pipe(pipe: Pipe, modifier: Modifier = Modifier) {
         contentDescription = null,
         modifier
             .offset {
-                IntOffset(pipe.x.dp.roundToPx(), pipe.topY.dp.roundToPx())
+                IntOffset(pipe.x.roundToPx(), pipe.topY.roundToPx())
             }
-            .size(pipe.width.dp, (pipe.bottomY - pipe.topY).dp)
+            .size(pipe.width, (pipe.bottomY - pipe.topY))
             .background(Color.Green),
         contentScale = ContentScale.FillBounds
     )

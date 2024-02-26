@@ -2,6 +2,8 @@ package io.github.adibfara.flappygame.ui.game.logic
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Block
 import io.github.adibfara.flappygame.ui.game.model.Pipe
@@ -24,11 +26,11 @@ class BlockMovementLogic(
 
     override fun onUpdate(deltaTime: Float) {
         updateBlockX { x ->
-            x - (deltaTime * scrollAmount)
+            x - (scrollAmount * deltaTime).dp
         }
     }
 
-    private fun updateBlockX(update: (Float) -> Float) {
+    private fun updateBlockX(update: (Dp) -> Dp) {
         _blockPosition.update { blocks ->
             blocks.map { block ->
                 block.copy(
