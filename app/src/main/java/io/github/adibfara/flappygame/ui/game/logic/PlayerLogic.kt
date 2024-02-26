@@ -3,6 +3,7 @@ package io.github.adibfara.flappygame.ui.game.logic
 import androidx.compose.ui.unit.dp
 import io.github.adibfara.flappygame.ui.game.engine.GameLogic
 import io.github.adibfara.flappygame.ui.game.model.Player
+import io.github.adibfara.flappygame.ui.game.model.Viewport
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class PlayerLogic(private val gameStatusLogic: GameStatusLogic) : GameLogic, OnGameOverLogic {
-    private val defaultPlayer = Player(100.dp, 0f)
+class PlayerLogic(
+    private val gameStatusLogic: GameStatusLogic,
+    viewport: Viewport
+) :
+    GameLogic, OnGameOverLogic {
+    private val defaultPlayer = Player(viewport.height / 2, 0f)
     private val _playerPosition = MutableStateFlow(defaultPlayer)
     val player: StateFlow<Player> = _playerPosition
 
@@ -34,7 +39,7 @@ class PlayerLogic(private val gameStatusLogic: GameStatusLogic) : GameLogic, OnG
     fun jump() {
         gameStatusLogic.gameStarted()
         _playerPosition.update {
-            it.copy(speed = -0.25f)
+            it.copy(speed = -0.30f)
         }
     }
 

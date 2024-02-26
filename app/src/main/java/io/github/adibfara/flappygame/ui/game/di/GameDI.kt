@@ -16,10 +16,10 @@ import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 
-class GameDI(private val viewport: Viewport, val timeManager: TimeManager) {
+class GameDI(viewport: Viewport, val timeManager: TimeManager) {
     val coroutineScope = gameCoroutineScope()
     val gameStatusLogic = GameStatusLogic(coroutineScope)
-    val playerLogic = PlayerLogic(gameStatusLogic)
+    val playerLogic = PlayerLogic(gameStatusLogic, viewport)
     val blockMovementLogic = BlockMovementLogic(viewport)
     val playerCollisionLogic =
         PlayerCollisionLogic(playerLogic, blockMovementLogic, gameStatusLogic, viewport)

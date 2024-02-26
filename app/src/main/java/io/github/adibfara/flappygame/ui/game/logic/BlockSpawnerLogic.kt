@@ -33,8 +33,6 @@ class BlockSpawnerLogic(
 
     private suspend fun spawn() {
         while (true) {
-            val randomTime = 1500 + (Random().nextFloat() * 1000)
-            delay(randomTime.toLong())
             val existingBlock = blockMovementLogic.blockPosition.value.firstOrNull {
                 it.topPipe.x < blockDestructionPoint
             }
@@ -49,6 +47,9 @@ class BlockSpawnerLogic(
             } else {
                 blockMovementLogic.addBlock(createBlock)
             }
+
+            val randomTime = 1500 + (Random().nextFloat() * 1000)
+            delay(randomTime.toLong())
         }
     }
 
