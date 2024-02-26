@@ -1,15 +1,31 @@
 package io.github.adibfara.flappygame.ui.game.engine
 
-import kotlinx.coroutines.delay
+import androidx.compose.runtime.withFrameMillis
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.shareIn
 
-class TimeManager {
-    val deltaTime = flow {
-        while (true) {
-            val time = 1
-            delay(time.toLong())
-            emit(time.toFloat() * 2)
-        }
+class TimeManager(coroutineScope: CoroutineScope) {
+    val deltaTime by lazy {
+        flow {
+            while (true) {
+                var lastFrame: Long? = null
+                while (true) {
+                    var frame = 0.0f
+                    withFrameMillis {
+                        if (lastFrame != null) {
+                            frame = (it - lastFrame!!).toFloat()
+                        }
+                        lastFrame = it
+                    }
+
+                    if (frame != 0.0f) {
+                        emit(frame)
+                    }
+                }
+            }
+        }.shareIn(coroutineScope, SharingStarted.Eagerly)
     }
 
 }

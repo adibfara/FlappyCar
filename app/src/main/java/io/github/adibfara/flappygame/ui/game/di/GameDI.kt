@@ -2,6 +2,7 @@ package io.github.adibfara.flappygame.ui.game.di
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import io.github.adibfara.flappygame.ui.game.engine.LogicManager
 import io.github.adibfara.flappygame.ui.game.engine.TimeManager
 import io.github.adibfara.flappygame.ui.game.engine.gameCoroutineScope
@@ -15,8 +16,7 @@ import io.github.adibfara.flappygame.ui.game.logic.PlayerCollisionLogic
 import io.github.adibfara.flappygame.ui.game.logic.PlayerLogic
 import io.github.adibfara.flappygame.ui.game.model.Viewport
 
-class GameDI(private val viewport: Viewport) {
-    val timeManager = TimeManager()
+class GameDI(private val viewport: Viewport, val timeManager: TimeManager) {
     val gameStatusLogic = GameStatusLogic()
     val coroutineScope = gameCoroutineScope()
     val playerLogic = PlayerLogic(gameStatusLogic)
@@ -42,8 +42,12 @@ class GameDI(private val viewport: Viewport) {
     companion object {
         @Composable
         fun rememberDI(viewport: Viewport): GameDI {
+            val coroutineScope = rememberCoroutineScope()
+            val timeManager = remember {
+                TimeManager(coroutineScope)
+            }
             return remember {
-                GameDI(viewport)
+                GameDI(viewport, timeManager)
             }
         }
     }
